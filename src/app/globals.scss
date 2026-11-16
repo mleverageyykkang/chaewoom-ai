@@ -1,0 +1,13 @@
+@use './main/landing.scss';
+
+:root {
+    color-scheme: light;
+}
+
+img {
+    max-width: 100%;
+}
+
+[hidden]:not([hidden='until-found' i]) {
+    display: none !important;
+}

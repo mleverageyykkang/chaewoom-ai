@@ -1,0 +1,14 @@
+.SwiperContainer {
+    padding: 9px 0px;
+    width: 100% !important;
+    height: 343px;
+    touch-action: pan-y;
+
+    .SlideContainer {
+        box-sizing: border-box;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 auto;
+        border-bottom: 1px solid #757d8b;
+    }
+}
