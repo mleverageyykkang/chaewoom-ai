@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- 확인·완료 -->
+  <defs>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6be6a8"/><stop offset=".55" stop-color="#22c27a"/><stop offset="1" stop-color="#119a5c"/></linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="46" fill="url(#green)"/>
+  <ellipse cx="45" cy="35" rx="22" ry="11" fill="#fff" opacity=".28" transform="rotate(-28 45 35)"/>
+  <path d="M39 61l14 14 29-31" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

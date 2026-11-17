@@ -1,4 +1,6 @@
-// 7. 자주 묻는 질문
+import { Eyebrow } from '../components/sectionHead';
+
+// 8. 자주 묻는 질문: 왼쪽 제목·안내·버튼 / 오른쪽 목록
 const FAQ = [
     {
         q: '회사에 알려지나요?',
@@ -19,8 +21,19 @@ const FAQ = [
 const Section7 = () => {
     return (
         <section className="section faq" id="faq">
-            <div className="container">
-                <h2 className="s-title center reveal">자주 묻는 질문</h2>
+            <div className="container faq-grid">
+                <div className="faq-head reveal">
+                    <Eyebrow num="07" label="궁금한 점" />
+                    <h2 className="s-title">자주 묻는 질문</h2>
+                    <p className="s-desc">
+                        더 궁금한 점은
+                        <br />
+                        무료 상담에서 물어보세요
+                    </p>
+                    <a className="pill pill-sm" href="#consult">
+                        무료 진단 신청
+                    </a>
+                </div>
                 <div className="faq-list reveal">
                     {FAQ.map((f, i) => (
                         // name: 같은 이름끼리 하나만 열리는 아코디언 (브라우저 기본 기능)

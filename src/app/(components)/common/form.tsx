@@ -46,7 +46,7 @@ const Form = () => {
                 <span>
                     상담을 위한 개인정보(이름, 전화번호) 수집·이용에 동의합니다
                     <span style={{ display: 'inline-block', marginLeft: 6 }}>
-                        <PrivacyAgreement title="전문보기" decoration="underline" trigger={14} color="#5A5B63" />
+                        <PrivacyAgreement title="전문보기" decoration="underline" trigger={14} color="#DBE6FF" />
                     </span>
                 </span>
             </label>

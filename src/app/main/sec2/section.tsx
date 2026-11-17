@@ -1,7 +1,9 @@
-// 2. 맞춤형 해결 방법 (M3): 구슬 → 알림 카드, 3초마다 새 카드가 위에 생기고 이전 카드는 아래로 쌓임
+import SectionHead from '../components/sectionHead';
+
+// 2. 맞춤형 해결 방법 (M3): 왼쪽 제목 · 오른쪽 알림 카드. 3초마다 새 카드가 위에 생기고 이전 카드는 아래로 쌓임
 const NOTICES = [
     {
-        img: 'purse',
+        img: 'wallet',
         msg: (
             <>
                 소득에 맞춰
@@ -11,7 +13,7 @@ const NOTICES = [
         ),
     },
     {
-        img: 'chat',
+        img: 'bell-off',
         msg: (
             <>
                 개시 결정 후에는
@@ -21,7 +23,7 @@ const NOTICES = [
         ),
     },
     {
-        img: 'handshake',
+        img: 'diagnosis',
         msg: (
             <>
                 첫 진단과 상담은 <span className="blue">무료</span>
@@ -44,12 +46,25 @@ const NOTICES = [
 const Section2 = () => {
     return (
         <section className="section picks">
-            <div className="container">
-                <h2 className="s-title center reveal">
-                    채움이 알려드리는
-                    <br />
-                    <span className="grad-text">맞춤형 해결 방법</span>
-                </h2>
+            <div className="container picks-grid">
+                <SectionHead
+                    num="01"
+                    label="맞춤 안내"
+                    title={
+                        <>
+                            채움이 알려드리는
+                            <br />
+                            <span className="grad-text">맞춤형 해결 방법</span>
+                        </>
+                    }
+                    desc={
+                        <>
+                            처음 알아볼 때 가장 많이 묻는 것부터
+                            <br />
+                            차례로 알려드려요
+                        </>
+                    }
+                />
                 <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
                     <defs>
                         <linearGradient id="spk" x1="0" y1="0" x2="1" y2="1">
@@ -63,6 +78,25 @@ const Section2 = () => {
                                 fill="url(#spk)"
                             />
                         </symbol>
+                        {/* 서류 아이콘: 변제 현황 "제출 서류" 카드에서 씀 */}
+                        <symbol id="doc" viewBox="0 0 30 38">
+                            <path
+                                d="M5 1h14l10 10v22a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V5a4 4 0 0 1 4-4z"
+                                fill="#fff"
+                                stroke="#b9cdf5"
+                                strokeWidth="1.5"
+                            />
+                            <path
+                                d="M19 1v6a4 4 0 0 0 4 4h6"
+                                fill="#eaf0fc"
+                                stroke="#b9cdf5"
+                                strokeWidth="1.5"
+                                strokeLinejoin="round"
+                            />
+                            <rect x="7" y="17" width="16" height="2.4" rx="1.2" fill="#b9cdf5" />
+                            <rect x="7" y="22.5" width="13" height="2.4" rx="1.2" fill="#b9cdf5" />
+                            <rect x="7" y="28" width="9" height="2.4" rx="1.2" fill="#b9cdf5" />
+                        </symbol>
                     </defs>
                 </svg>
                 {/* 카드 순서 = 나오는 순서. 움직임이 꺼져 있으면 이대로 4장이 쌓인 모습 */}
@@ -75,13 +109,10 @@ const Section2 = () => {
                                 </svg>
                             </span>
                             <p className="notice-msg">{n.msg}</p>
-                            <img className="notice-obj" src={`/assets/icons3d/${n.img}.png`} alt="" />
+                            <img className="notice-obj" src={`/assets/icons/${n.img}.svg`} alt="" />
                         </div>
                     ))}
                 </div>
-            </div>
-            <div className="bigword" aria-hidden="true">
-                FRESH START<em>✦</em> FRESH START<em>✦</em>
             </div>
         </section>
     );

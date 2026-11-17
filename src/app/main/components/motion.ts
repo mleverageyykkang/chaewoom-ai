@@ -1,4 +1,4 @@
-// 랜딩 움직임 (원본 시안 스크립트 M1–M9 그대로 옮김)
+// 랜딩 움직임 M1–M9 (원본 시안 2 스크립트를 그대로 옮김)
 // 화면에 보일 때만 진행. 움직임 줄이기 설정이면 html.motion 이 없어서 글자 등장(M9)만 바로 보임
 
 type El = HTMLElement;
@@ -9,7 +9,7 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 export function startLandingMotion() {
     const MOTION = document.documentElement.classList.contains('motion');
 
-    // 화면에 보일 때만 진행
+    // 화면에 보일 때만 진행 (화면 밖으로 나가면 멈췄다가 다시 보이면 이어서)
     const seen = new WeakMap<Element, boolean>();
     const waiting = new Map<Element, (() => void)[]>();
     const visIO = new IntersectionObserver(
@@ -21,7 +21,7 @@ export function startLandingMotion() {
                     waiting.delete(e.target);
                 }
             }),
-        { threshold: 0.2 }
+        { threshold: 0.05 }
     );
     const whenVisible = (el: Element) =>
         seen.get(el)
@@ -95,65 +95,24 @@ export function startLandingMotion() {
                     revealIO.unobserve(e.target);
                 }
             }),
-        { threshold: 0.15 }
+        { threshold: 0.05 }
     );
     $$('.reveal').forEach((el) => revealIO.observe(el));
 
     if (!MOTION) return;
 
-    // ── M1 첫 화면: 반원 → 덩어리 → 화면을 휩쓰는 큰 모양 → 반원 → 공 → 알약 → 3D 저울 (5.3초, 1회) ──
-    const morph = $('.morph');
-    const stage = $('.hero-stage');
-    const cta = $('.hero-cta');
-    const img = $('.hero-3d');
-    const startHero = () => {
-        const k = stage.offsetWidth / 200; // 모바일은 작게
-        const lift =
-            stage.getBoundingClientRect().top +
-            stage.offsetHeight / 2 -
-            (cta.getBoundingClientRect().top + cta.offsetHeight / 2);
-        const half = cta.offsetHeight / 2;
-        // w,h: 크기 / cy: 버튼 가운데 기준 세로 중심 / r: 모서리 / rot: 기울기 / hue: 색 돌리기
-        const shape = (o: number, w: number, h: number, r: string, cy: number, rot = 0, op = 1, hue = 0) => ({
-            offset: o,
-            width: `${w * k}px`,
-            height: `${h * k}px`,
-            borderRadius: r,
-            transform: `translate(${(-w * k) / 2}px, ${cy - (h * k) / 2}px) rotate(${rot}deg)`,
-            opacity: op,
-            filter: `hue-rotate(${hue}deg) blur(${h > 600 ? 0 : 1}px)`,
-        });
-        const dome = (o: number, w: number, h: number, rot = 0) =>
-            shape(o, w, h, `${(w * k) / 2}px ${(w * k) / 2}px ${8 * k}px ${8 * k}px`, half - (h * k) / 2, rot);
-        const ease = 'cubic-bezier(.65, 0, .35, 1)';
-        const frames = [
-            { ...dome(0, 150, 0), opacity: 1 },
-            dome(0.13, 170, 90),
-            { ...shape(0.25, 210, 230, `${105 * k}px ${105 * k}px ${26 * k}px ${26 * k}px`, half - 115 * k, -6) },
-            { ...shape(0.38, 1500, 1200, `${750 * k}px ${750 * k}px ${90 * k}px ${90 * k}px`, half - 360 * k, -24) },
-            dome(0.49, 250, 125),
-            shape(0.62, 110, 110, '50%', lift),
-            shape(0.75, 66, 120, `${33 * k}px`, lift, -28, 1, -24),
-            shape(0.83, 46, 84, `${23 * k}px`, lift, -28, 0, -24),
-            shape(1, 46, 84, `${23 * k}px`, lift, -28, 0, -24),
-        ].map((f) => ({ ...f, easing: ease }));
-        morph.animate(frames, { duration: 5300, fill: 'forwards' });
-        img.animate(
-            [
-                { opacity: 0, transform: 'scale(.3) rotate(-10deg)' },
-                { opacity: 1, transform: 'scale(1.12) rotate(4deg)', offset: 0.6 },
-                { opacity: 1, transform: 'none' },
-            ],
-            { duration: 800, delay: 4250, fill: 'forwards', easing: 'cubic-bezier(.22, 1, .36, 1)' }
-        ).finished.then(() => {
-            img.style.opacity = '1';
-            img.classList.add('is-bob');
-        });
-        setTimeout(() => $('.chev').classList.add('is-on'), 3300);
-    };
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(startHero));
+    // ── M1 첫 화면 배경 영상: 화면에 보일 때만 재생, 벗어나면 멈춤 (글자는 M9 등장 효과로 올라옴) ──
+    const heroVideo = $('.hero-video') as HTMLVideoElement | null;
+    if (heroVideo) {
+        new IntersectionObserver(([e]) => {
+            if (e.isIntersecting) heroVideo.play().catch(() => {});
+            else heroVideo.pause();
+        }).observe(heroVideo);
+    }
+    // ── M2 아래 화살표: 글자가 다 올라온 뒤 깜빡이기 시작 ──
+    setTimeout(() => $('.chev')?.classList.add('is-on'), 800);
 
-    // ── M3 맞춤형 해결 방법: 구슬 → 알림 카드 펼침 → 3초마다 새 카드가 맨 위에 생기고 이전 카드는 한 칸씩 아래로 ──
+    // ── M3 맞춤형 해결 방법: 구슬 → 알림 카드 펼침 → 새 카드가 맨 위에 생기고 이전 카드는 한 칸씩 아래로 ──
     const notice = $('[data-notice]');
     const tpl = $$('.notice-card', notice).map((c) => c.cloneNode(true) as El); // 나오는 순서
     const stack = $$('.notice-card', notice);
@@ -162,16 +121,16 @@ export function startLandingMotion() {
     play(
         notice,
         async () => {
-            await sleep(300);
+            await sleep(100);
             notice.classList.replace('st0', 'st1'); // 구슬
-            await sleep(1300);
+            await sleep(700);
             notice.classList.replace('st1', 'st2'); // 카드로 펼쳐짐
-            await sleep(900);
-            notice.classList.remove('st2'); // 문구·물체 등장
             await sleep(600);
+            notice.classList.remove('st2'); // 문구·물체 등장
+            await sleep(300);
         },
         async () => {
-            await wait(notice, 3000);
+            await wait(notice, 2200);
             mi = (mi + 1) % tpl.length;
             const card = tpl[mi].cloneNode(true) as El;
             card.dataset.slot = 'new';
@@ -216,21 +175,21 @@ export function startLandingMotion() {
             roll2(ph, 0);
             chips(ph, 0);
         });
-        await wait(ph, 700);
-        nums.forEach((n) => countUp(n, 1300));
+        await wait(ph, 250);
+        nums.forEach((n) => countUp(n, 1000));
         barI.style.width = barI.dataset.w!;
-        await wait(ph, 2200);
+        await wait(ph, 1600);
         roll2(ph, 1);
-        await wait(ph, 1700);
+        await wait(ph, 1300);
         chips(ph, 1);
-        await wait(ph, 1700);
+        await wait(ph, 1300);
         const cells = $$('.months i', ph);
         const pc = $('[data-paid-count]', ph);
         cells.forEach((c) => c.classList.remove('on', 'now', 'pop'));
         pc.textContent = '0';
         listScroll(ph, false);
         ph.classList.add('on-b');
-        await wait(ph, 700);
+        await wait(ph, 500);
         for (let i = 0; i < 12; i++) {
             cells[i].classList.add('on', 'pop');
             setTimeout(() => cells[i].classList.remove('pop'), 250);
@@ -238,9 +197,9 @@ export function startLandingMotion() {
             await sleep(110);
         }
         cells[12].classList.add('now');
-        await wait(ph, 500);
+        await wait(ph, 400);
         listScroll(ph, true);
-        await wait(ph, 3200);
+        await wait(ph, 2600);
     });
 
     const business = $('[data-demo="business"]');
@@ -256,22 +215,22 @@ export function startLandingMotion() {
             nums.forEach(zero);
             chips(ph, 0);
         });
-        await wait(ph, 700);
+        await wait(ph, 250);
         for (let i = 0; i < bars.length; i++) {
             bars[i].style.width = bars[i].dataset.w!;
-            countUp(nums[i], 900);
-            await sleep(600);
+            countUp(nums[i], 800);
+            await sleep(450);
         }
-        await wait(ph, 700);
+        await wait(ph, 500);
         hl.classList.add('is-hl');
-        await wait(ph, 1600);
+        await wait(ph, 1200);
         chips(ph, 1);
-        await wait(ph, 1700);
+        await wait(ph, 1300);
         listScroll(ph, false);
         ph.classList.add('on-b');
-        await wait(ph, 900);
+        await wait(ph, 700);
         listScroll(ph, true);
-        await wait(ph, 3600);
+        await wait(ph, 2800);
     });
 
     const check = $('[data-demo="check"]');
@@ -285,25 +244,25 @@ export function startLandingMotion() {
             items.forEach((li) => li.classList.remove('done'));
             result.classList.add('hide');
         });
-        await wait(ph, 800);
+        await wait(ph, 250);
         for (const li of items) {
             li.classList.add('done');
-            await sleep(650);
+            await sleep(500);
         }
-        await wait(ph, 300);
+        await wait(ph, 250);
         result.classList.remove('hide');
-        await wait(ph, 2400);
+        await wait(ph, 1800);
         noTransition(bubbles, () => bubbles.forEach((b) => b.classList.add('hide')));
         ph.classList.add('on-b');
-        await wait(ph, 700);
+        await wait(ph, 500);
         for (const b of bubbles) {
             b.classList.remove('hide');
-            await sleep(900);
+            await sleep(700);
         }
-        await wait(ph, 2600);
+        await wait(ph, 2000);
     });
 
-    // ── M5 카드가 하나씩 튀어나오며 그래프가 0부터 차오름 (3.3초 간격) ──
+    // ── M5 카드가 하나씩 튀어나오며 그래프가 0부터 차오름 ──
     const fan = $('[data-fan]');
     const charts = $$('.acard[data-chart]', fan);
     let ci = -1;
@@ -329,21 +288,35 @@ export function startLandingMotion() {
             tweenVar(r, '--p', +r.dataset.p!, 1200);
             countUp(s, 1200);
         },
+        // 신청부터 한 칸씩: 지난 단계는 체크, 선이 다음 점까지 차오름, 마지막(변제)은 "지금 단계"
         steps: async (c) => {
-            const st = $$('.a-steps span', c);
-            c.dataset.on ??= String(st.filter((s) => s.classList.contains('on')).length);
-            st.forEach((s) => s.classList.remove('on'));
-            await sleep(300);
-            for (const s of st.slice(0, +c.dataset.on)) {
-                s.classList.add('on');
-                await sleep(400);
+            const ol = $('.a-steps', c);
+            const st = $$('li', ol);
+            const set = (m: number) => {
+                st.forEach((s, i) => {
+                    s.classList.toggle('on', i < m);
+                    s.classList.toggle('now', i === m);
+                });
+                ol.style.setProperty('--n', String(m));
+            };
+            ol.classList.add('reset');
+            set(0);
+            void ol.offsetWidth;
+            ol.classList.remove('reset');
+            for (let m = 1; m < st.length; m++) {
+                await sleep(450);
+                set(m);
             }
         },
-        progress: async (c) => {
-            const i = $('.a-progress i', c);
-            noTransition([i], () => (i.style.width = '0'));
-            await sleep(250);
-            i.style.width = i.dataset.w!;
+        // 서류 5장이 차례로 체크됨
+        docs: async (c) => {
+            const d = $$('.a-docs li', c);
+            noTransition($$('.a-doc', c), () => d.forEach((li) => li.classList.remove('on')));
+            await sleep(300);
+            for (const li of d) {
+                li.classList.add('on');
+                await sleep(170);
+            }
         },
     };
     play(fan, null, async () => {
@@ -352,7 +325,7 @@ export function startLandingMotion() {
         const c = charts[ci];
         c.classList.add('is-pop');
         fill[c.dataset.chart!](c);
-        await wait(fan, 3300);
+        await wait(fan, 2300);
     });
 
     // ── M6 서류 준비: 휴대폰 캐러셀 + 제목 단어가 맞춰 굴러 바뀜, 배경색 1초 전환 ──
@@ -360,18 +333,9 @@ export function startLandingMotion() {
     const deck = $('.deck', docs);
     const dps = $$('.dphone', deck);
     const track = $('.roll-track', docs);
-    const word = $('[data-roll]', docs);
     const n = dps.length;
     let di = 0;
-    // 글꼴·스타일이 다 적용된 뒤에 재야 정확함 (개발 모드는 CSS가 늦게 붙음)
-    const fitWord = () => {
-        word.style.width = '';
-        word.style.width = Math.max(...$$('span', track).map((s) => s.scrollWidth)) + 'px';
-    };
-    fitWord();
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(fitWord);
-    window.addEventListener('load', fitWord);
-    window.addEventListener('resize', fitWord);
+    // 굴러 바뀌는 단어 칸의 폭은 가장 긴 단어에 맞춰 CSS가 저절로 정함 (JS로 재지 않음)
     const setPos = () =>
         dps.forEach((p, i) => {
             const d = (i - di + n) % n;
@@ -381,12 +345,12 @@ export function startLandingMotion() {
         docs,
         async () => {
             docs.classList.add('is-active');
-            await sleep(900);
+            await sleep(300);
             deck.classList.remove('st0');
-            await sleep(600);
+            await sleep(300);
         },
         async () => {
-            await wait(docs, 2200);
+            await wait(docs, 1800);
             di += 1;
             track.style.transform = `translateY(${(-di * 100) / (n + 1)}%)`;
             if (di === n) {
@@ -397,20 +361,20 @@ export function startLandingMotion() {
         }
     );
 
-    // ── M7 채움과 함께하면: 한 장 먼저 → 줄지어 왼쪽으로 흐름 (2.4초에 한 칸), 넘어가는 카드는 흐려짐 ──
+    // ── M7 채움과 함께하면: 한 장 먼저 → 줄지어 왼쪽으로 흐름, 넘어가는 카드는 흐려짐 ──
     const flow = $('[data-flow]');
     const ftrack = $('.flow-track', flow);
     play(
         flow,
         async () => {
-            await sleep(200);
+            await sleep(100);
             flow.classList.remove('st00');
-            await sleep(1300);
+            await sleep(800);
             flow.classList.remove('st0');
-            await sleep(1200);
+            await sleep(800);
         },
         async () => {
-            await wait(flow, 2400);
+            await wait(flow, 2000);
             if (flow.matches(':hover')) return;
             const first = ftrack.firstElementChild as El;
             const step = first.offsetWidth + parseFloat(getComputedStyle(ftrack).gap);
@@ -444,14 +408,14 @@ export function startLandingMotion() {
             f.classList.remove('is-typing');
         });
         agree.classList.remove('on');
-        await wait(ph, 300);
+        await wait(ph, 100);
         dot.classList.add('is-bounce');
         await sleep(900);
         dot.classList.remove('is-bounce');
         splash.classList.remove('pre');
-        await wait(ph, 1600);
+        await wait(ph, 1000);
         ph.classList.add('on-b');
-        await wait(ph, 700);
+        await wait(ph, 500);
         for (const f of fields) {
             f.classList.add('is-typing');
             const b = $('b', f);
@@ -470,6 +434,6 @@ export function startLandingMotion() {
         btn.classList.remove('is-press');
         await wait(ph, 400);
         ph.classList.replace('on-b', 'on-c');
-        await wait(ph, 2800);
+        await wait(ph, 2200);
     });
 }

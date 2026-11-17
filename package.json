@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev -p 3016",
+        "dev": "next dev ",
         "lint": "next lint",
         "build:stage": "dotenv -e .env.stage.local -- next build",
         "start:stage": "dotenv -e .env.stage.local -- next start -p 3016",

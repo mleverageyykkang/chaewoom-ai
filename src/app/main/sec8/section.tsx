@@ -3,12 +3,12 @@ import Footer from '@/app/(components)/common/footer';
 import { FormProvider } from '@/app/(components)/formProvider';
 import ScrTop from '../components/scrTop';
 
-// 8. 마지막 상담 (M8): 시작 화면 → 신청 입력 → 완료 + 바닥글
+// 8. 마지막 상담 (M8): 코발트 둥근 판 + 신청 폼, 오른쪽 휴대폰(시작 화면 → 신청 입력 → 완료) + 바닥글
 const Section8 = () => {
     return (
         <section className="section final" id="consult">
             <div className="container">
-                <div className="final-grid">
+                <div className="cta-panel">
                     <div className="reveal">
                         <h2 className="s-title">
                             나에게 맞는 해결 방법
@@ -23,7 +23,7 @@ const Section8 = () => {
                         <div className="scr-wrap">
                             <div className="scr a f-splash">
                                 <span className="f-dot"></span>
-                                <img src="/assets/icons3d/scale.png" alt="" />
+                                <img src="/assets/icons/scale.svg" alt="" />
                                 <b>채움회생</b>
                                 <small>개인회생 · 파산 상담</small>
                             </div>
@@ -44,7 +44,7 @@ const Section8 = () => {
                                 <div className="scr-btn">상담 신청하기</div>
                             </div>
                             <div className="scr c f-done">
-                                <img src="/assets/icons3d/check.png" alt="" />
+                                <img src="/assets/icons/check.svg" alt="" />
                                 <b>상담 신청이 완료됐어요</b>
                                 <small>곧 상담 전화를 드릴게요</small>
                             </div>

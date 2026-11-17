@@ -1,4 +1,5 @@
 import ScrTop from '../components/scrTop';
+import { Eyebrow } from '../components/sectionHead';
 
 // 5. 서류 준비 (M6): 휴대폰 캐러셀 + 제목 단어가 굴러 바뀜
 const DOC_PHONES = [
@@ -18,19 +19,22 @@ const Section5 = () => {
     return (
         <section className="section docs" data-docs>
             <div className="container">
-                <div className="reveal">
-                    <h2 className="s-title">
-                        필요한 서류만
-                        <br />
-                        쉽고 빠르게{' '}
-                        <span className="roll-word blue" data-roll>
-                            <span className="roll-track">
-                                {ROLL_WORDS.map((w, i) => (
-                                    <span key={i}>{w}</span>
-                                ))}
+                <div className="s-head reveal">
+                    <div>
+                        <Eyebrow num="05" label="서류 준비" />
+                        <h2 className="s-title">
+                            필요한 서류만
+                            <br />
+                            쉽고 빠르게{' '}
+                            <span className="roll-word blue" data-roll>
+                                <span className="roll-track">
+                                    {ROLL_WORDS.map((w, i) => (
+                                        <span key={i}>{w}</span>
+                                    ))}
+                                </span>
                             </span>
-                        </span>
-                    </h2>
+                        </h2>
+                    </div>
                     <p className="s-desc">
                         등본부터 소득·부채 서류까지
                         <br />

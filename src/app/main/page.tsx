@@ -1,5 +1,6 @@
 import Section1 from './sec1/section';
 import Section2 from './sec2/section';
+import SectionAbout from './secAbout/section';
 import Section3 from './sec3/section';
 import Section4 from './sec4/section';
 import Section5 from './sec5/section';
@@ -13,6 +14,7 @@ const MainPage = () => {
         <main>
             <Section1 />
             <Section2 />
+            <SectionAbout />
             <Section3 />
             <Section4 />
             <Section5 />

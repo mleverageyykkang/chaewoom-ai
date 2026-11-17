@@ -46,7 +46,9 @@ const FixedBanner = () => {
     const syncBar = useCallback(() => {
         const bar = barRef.current;
         if (!bar) return;
-        document.documentElement.style.setProperty('--bar-space', hidden ? '0px' : bar.offsetHeight + 'px');
+        // 떠 있는 바: 위아래 여백(--bar-gap)까지 포함해서 본문 아래 공간을 비워 둠
+        const gap = parseFloat(getComputedStyle(bar).getPropertyValue('--bar-gap')) || 0;
+        document.documentElement.style.setProperty('--bar-space', hidden ? '0px' : bar.offsetHeight + 2 * gap + 'px');
     }, [hidden]);
 
     useEffect(() => {
@@ -67,19 +69,18 @@ const FixedBanner = () => {
             <aside ref={barRef} className={`dl-bar${hidden ? ' is-hidden' : ''}`} aria-label="무료 상담 안내">
                 <div className="container">
                     <p className="dl-text">
-                        <span className="dl-pc">
-                            혼자 고민하지 마세요
-                            <br />
-                            지금{' '}
+                        <small className="dl-pc">혼자 고민하지 마세요</small>
+                        <span>
+                            <span className="dl-pc">지금 </span>
+                            <span className="blue">무료 진단·상담</span> 받아보세요
                         </span>
-                        <span className="blue">무료 진단·상담</span>
                     </p>
                     <div className="dl-actions">
                         <a className="dl-tel" href={`tel:${TEL}`}>
-                            <small>전화 상담 (테스트 번호)</small>
+                            <small>전화 상담</small>
                             {TEL_LABEL}
                         </a>
-                        <a className="dl-call" href={`tel:${TEL}`} aria-label="전화 상담 (테스트 번호)">
+                        <a className="dl-call" href={`tel:${TEL}`} aria-label="전화 상담">
                             <PhoneIcon size={18} />
                         </a>
                         <a className="pill pill-sm" href="#consult">
@@ -93,7 +94,7 @@ const FixedBanner = () => {
             </aside>
 
             <div className="fab">
-                <a className="call" href={`tel:${TEL}`} aria-label="전화 상담 (테스트 번호)">
+                <a className="call" href={`tel:${TEL}`} aria-label="전화 상담">
                     <PhoneIcon size={20} />
                 </a>
                 <a href="#" aria-label="맨 위로">
