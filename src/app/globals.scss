@@ -1,5 +1,18 @@
 @use './main/landing.scss';
 
+/* 바닥글 약관 링크: 모달을 여는 버튼이지만 시안의 글자 링크처럼 보이게 */
+.footer-link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+.footer-link:hover {
+    color: var(--primary);
+}
+
 :root {
     color-scheme: light;
 }

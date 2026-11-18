@@ -477,8 +477,9 @@
     .footer-links { display: flex; gap: 18px; color: var(--text-sub); }
     .footer-links b { color: var(--text); }
     .footer dl { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 16px; font-size: 13px; }
-    .footer dt { color: var(--text); font-weight: var(--fw-bold); }
-    .footer dd { margin: 0 0 0 -12px; }
+    .footer dl > div { display: flex; gap: 6px; } /* 이름표와 내용을 한 묶음으로: 긴 주소가 줄바꿈돼도 내용 칸 안에서 바뀜 */
+    .footer dt { flex: none; color: var(--text); font-weight: var(--fw-bold); }
+    .footer dd { margin: 0; }
     .footer .disclaimer { margin-top: 14px; font-size: 13px; }
 
     /* ───── 하단 고정 상담 배너 + 떠 있는 버튼 ───── */

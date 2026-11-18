@@ -1,0 +1,11 @@
+{
+    "MainCfId":  "E1Y8E4XC5AA6K1",
+    "PunycodeDomain":  "check.xn--9g4br1i96e3mm.kr",
+    "IncludeWww":  false,
+    "CertArn":  "arn:aws:acm:us-east-1:202533507544:certificate/1e177313-27cc-4217-8a6e-3846ab633a3f",
+    "RawDomainName":  "check.채움회생.kr",
+    "S3Bucket":  "ml-ad-pages",
+    "ConnectionGroupId":  "cg_3A3LWbESFADJuXvxREFRp8TC5Ao",
+    "TenantName":  "chaewoom-ai",
+    "TenantId":  "dt_3MGcB8i9PuBwWPIIGCGfOnNJpjo"
+}

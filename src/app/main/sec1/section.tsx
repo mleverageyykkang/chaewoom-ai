@@ -20,16 +20,16 @@ const Section1 = () => {
             </div>
             <div className="container">
                 <div className="hero-copy reveal">
-                    <span className="hero-tag">2026 회생전문</span>
+                    <span className="hero-tag">2027 개인회생</span>
                     <h1 className="hero-title">
-                        빚이 숨막혀요?
+                        무거운 빚,
                         <br />
                         <span className="blue">지금 당장</span>
                         <br />
-                        멈출 수 있습니다
+                        해결할 수 있습니다
                     </h1>
                     <p className="hero-desc">
-                        최대 90%까지 빚을 탕감받고
+                        최대 95%까지 빚을 탕감받고
                         <br />월 납부액을 줄일 수 있습니다.
                         <br />
                         오늘 무료상담 받고 부담 줄여보세요.
