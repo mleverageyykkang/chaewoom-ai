@@ -2,12 +2,20 @@
 
 /* 바닥글 약관 링크: 모달을 여는 버튼이지만 시안의 글자 링크처럼 보이게 */
 .footer-link {
+    position: relative;
     padding: 0;
     border: 0;
     background: none;
     font: inherit;
     color: inherit;
     cursor: pointer;
+    touch-action: manipulation; /* 모바일: 두 번 탭 확대 대기 없이 바로 눌리게 */
+}
+/* 글자는 그대로 두고 눌리는 범위만 넓힘 (글자 높이 21px → 약 45px). 옆 링크와 겹치지 않게 좌우는 8px */
+.footer-link::after {
+    content: '';
+    position: absolute;
+    inset: -12px -8px;
 }
 .footer-link:hover {
     color: var(--primary);

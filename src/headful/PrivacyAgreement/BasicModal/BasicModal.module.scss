@@ -70,7 +70,8 @@
 .ModalContent {
     max-height: 450px;
     height: auto;
-    width: calc(100% - 42px);
+    width: 100%; /* 여백(padding)을 폭 안에 포함 → 모달 폭을 꽉 채움 */
+    box-sizing: border-box;
     padding: 20px 15px 20px 20px;
     overflow-y: auto;
     text-wrap: wrap;
@@ -89,7 +90,7 @@
     }
 
     @media screen and (max-width: 768px) {
-        width: calc(100% - 47px);
+        width: 100%;
         max-height: 387px;
         padding: 10px 18px 10px 24px;
         padding-left: 24px;

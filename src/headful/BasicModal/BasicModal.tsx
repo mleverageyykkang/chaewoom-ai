@@ -1,5 +1,6 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useScrollLock } from '@/hooks/useScrollLock';
 import { createPortal } from 'react-dom';
 import styles from './BasicModal.module.scss';
 import { HiXMark } from 'react-icons/hi2';
@@ -13,16 +14,8 @@ type Props = {
 };
 
 const BasicModal = ({ isOpen, onClose, title, children }: Props) => {
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, [isOpen]);
+    // 열려 있는 동안 뒤 페이지 스크롤 고정 (닫으면 원래 위치로. 모바일에서 맨 위로 튀지 않게)
+    useScrollLock(isOpen);
 
     if (!isOpen) return null;
 
