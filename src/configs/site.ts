@@ -1,3 +1,3 @@
-// 사이트 공통 정보
-export const TEL = '05082011610';
-export const TEL_LABEL = '050-8201-1610';
+// 사이트 공통 정보: 전화번호는 여기만 바꾸면 첫 화면·하단 바·전화 버튼·바닥글에 모두 반영됨
+export const TEL = '05082011693';
+export const TEL_LABEL = '050-8201-1693';

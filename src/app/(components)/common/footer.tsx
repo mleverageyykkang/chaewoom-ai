@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import BasicModal from '@/headful/BasicModal/BasicModal';
+import { TEL_LABEL } from '@/configs/site';
 import PrivacyContent from './ModalContent/PrivacyContent';
 import DetailContent from './ModalContent/DetailContent';
 
@@ -11,7 +12,7 @@ const INFO: [string, string][] = [
     ['광고책임변호사', '천찬희'],
     ['주소', '서울특별시 영등포구 국회대로72길 4, 11층(여의도동, 아이비피아빌딩)'],
     ['사업자등록번호', '136-15-07548'],
-    ['대표전화', '050-8201-1610'],
+    ['대표전화', TEL_LABEL],
     ['이메일', 'yulsaeng1@gmail.com'],
 ];
 
