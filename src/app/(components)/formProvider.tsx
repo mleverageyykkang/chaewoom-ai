@@ -41,7 +41,7 @@ const splitPhone = (raw: string) => {
 export const FormProvider = ({ children, inquireLocation = '메인-하단', onSuccess }: FormProviderProps) => {
     const router = useRouter();
     const token = generateToken();
-    const [privacyValue, setPrivacyValue] = useState(false);
+    const [privacyValue, setPrivacyValue] = useState(true);
     const [phone, setPhone] = useState('');
     const [note, setNote] = useState('');
 
@@ -82,7 +82,7 @@ export const FormProvider = ({ children, inquireLocation = '메인-하단', onSu
             setFieldValue('middlePhone', '');
             setFieldValue('lastPhone', '');
             setPhone('');
-            setPrivacyValue(false);
+            setPrivacyValue(true);
 
             if (onSuccess) {
                 onSuccess();
